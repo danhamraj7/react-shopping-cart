@@ -9,7 +9,7 @@ import ShoppingCart from "./components/ShoppingCart";
 
 //contexts
 import { ProductContext } from "./contexts/ProductContext";
-
+import { CartContext } from "./contexts/CartContext";
 function App() {
   const [products] = useState(data);
   const [cart, setCart] = useState([]);
@@ -21,17 +21,15 @@ function App() {
   };
 
   return (
-	<div className="App">
-	{/* step3 wrapped components with provider */}
+    <div className="App">
+      {/* step3 wrapped components with provider */}
       <ProductContext.Provider value={{ products, addItem }}>
-        <Navigation cart={cart} />
-
-        {/* Routes */}
-        <Route
-		<Route exact path="/" component={Products} />
-        />
-
-        <Route path="/cart" render={() => <ShoppingCart cart={cart} />} />
+        <CartContext.Provider value={[cart]}>
+          <Navigation />
+          {/* Routes */}
+          <Route exact path="/" component={Products} />
+          <Route path="/cart" component={ShoppingCart} />
+        </CartContext.Provider>
       </ProductContext.Provider>
     </div>
   );
